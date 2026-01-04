@@ -1,30 +1,42 @@
 package com.cabinet.dentaire.service.interfaces;
 
-import com.cabinet.dentaire.entity.Patient;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.cabinet.dentaire.entity.Patient;
 
 public interface IPatientService {
 
+    // ============== CRUD Operations ==============
     
-    Optional<Patient> findById(Patient patient , Long patiendId) ;
+    Patient save(Patient patient);
+    
+    Optional<Patient> findById(Long patientId);
+    
     List<Patient> findAll();
-    Patient save(Patient patient) ;
-    Patient update(Patient patient , Long patientId) ;
-
-    void delete(Long patientId) ;
-
-    Optional<Patient> findByEmail(String email) ;
-
-    Optional<Patient> findByPhone(String phone) ;
     
-    List<Patient> searchByName(String name) ;
+    Patient update(Long id, Patient patient);
 
+    void delete(Long patientId);
+
+    // ============== Search Operations ==============
+    
+    Optional<Patient> findByEmail(String email);
+
+    Optional<Patient> findByPhone(String phone);
+    
+    List<Patient> searchByName(String name);
+    
+    // Note: findByFirstNameContaining... is NOT here!
+    // It's a Repository method used internally by searchByName()
+
+    // ============== Validation ==============
+    
     boolean existsByEmail(String email);
+    
     boolean existsByPhone(String phone);
 
-    long count() ;
-
+    // ============== Statistics ==============
+    
+    long count();
 }

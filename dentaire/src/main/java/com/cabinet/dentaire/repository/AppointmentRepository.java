@@ -11,33 +11,36 @@ import org.springframework.stereotype.Repository;
 import com.cabinet.dentaire.entity.Appointment;
 import com.cabinet.dentaire.entity.Patient;
 import com.cabinet.dentaire.enums.AppointmentEnums;
+
 @Repository 
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-public interface AppointmentRepository extends JpaRepository<Appointment , Long>{
+    // Find all appointments for a patient
+    List<Appointment> findByPatient(Patient patient);
+    
+    // Find by patient ID
+    List<Appointment> findByPatientId(Long patientId);
+    
+    // Find by status
+    List<Appointment> findByStatus(AppointmentEnums status);
 
- List<Appointment> findByPatient(Patient patient) ;
- List<Appointment> findByPatientId(Long patientId) ;
- List<Appointment> findByAppointmentStatus(AppointmentEnums status) ;
+    // Find appointments between two dates
+    List<Appointment> findByDateTimeBetween(LocalDateTime start, LocalDateTime end);
 
- // fid appointment on a specific date !
- List<Appointment> findByDateBetwen(LocalDateTime start , LocalDateTime end ) ;
+    // Find upcoming appointments for a patient
+    List<Appointment> findByPatientIdAndDateTimeAfter(Long patientId, LocalDateTime dateTime);
 
- //find upcoming app for specific patient
- List<Appointment> findByPatientAfterTime(Long patiendId , LocalDateTime dateTime) ;
+    // Find by status ordered by date
+    List<Appointment> findByStatusOrderByDateTimeAsc(AppointmentEnums status);
 
- List<Appointment> findByStatusByDateAsc(AppointmentEnums status); 
+    // Custom query for today's appointments
+    @Query("SELECT a FROM Appointment a WHERE DATE(a.dateTime) = CURRENT_DATE ORDER BY a.dateTime")
+    List<Appointment> findTodaysAppointments();
 
- // custum queries for today's appointment 
-
- @Query("SELECT A FROM Appointment a WHERE DATE(a.dateTime) = CURRENT_DATE ORDER BY a.dateTime")
- List<Appointment> findTodayAppointment() ;
-
-  @Query("SELECT a FROM Appointment a WHERE a.patient.id = :patientId AND a.status = :status")
+    // Custom query: Find appointments for a patient with specific status
+    @Query("SELECT a FROM Appointment a WHERE a.patient.id = :patientId AND a.status = :status")
     List<Appointment> findByPatientAndStatus(
         @Param("patientId") Long patientId, 
         @Param("status") AppointmentEnums status
     );
-
-
-    
 }

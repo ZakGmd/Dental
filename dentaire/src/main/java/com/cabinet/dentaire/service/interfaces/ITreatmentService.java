@@ -1,11 +1,11 @@
 package com.cabinet.dentaire.service.interfaces;
 
-import com.cabinet.dentaire.entity.Treatment;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import com.cabinet.dentaire.entity.Treatment;
 
 public interface ITreatmentService {
 
@@ -26,13 +26,14 @@ public interface ITreatmentService {
     List<Treatment> searchByName(String name);
     
     List<Treatment> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
+    boolean existsByCode(String code);
     
-    
-    // Get all treatments organized by code for quick lookup
     Map<String, Treatment> getAllTreatmentsAsMap();
     
-    // Get treatment prices as a map (code -> price)
     Map<String, BigDecimal> getTreatmentPriceMap();
-        
+    
+    
+    
+
     long count();
 }

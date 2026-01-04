@@ -1,6 +1,5 @@
 package com.cabinet.dentaire.entity;
 
-// JPA annotations for entity mapping
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;

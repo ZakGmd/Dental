@@ -12,12 +12,15 @@ import com.cabinet.dentaire.entity.Treatment;
 @Repository
 public interface TreatmentRepository extends JpaRepository<Treatment, Long> {
  
-    Optional<Treatment> findByCode(String code) ;
-    Optional<Treatment> findByName(String name) ;
+    Optional<Treatment> findByCode(String code);
+    
+    Optional<Treatment> findByName(String name);
 
-    List<Treatment> findByNameContainingIgnoreCase(String name) ;
+    List<Treatment> findByNameContainingIgnoreCase(String name);
+    
     List<Treatment> findByPriceLessThan(BigDecimal price); 
-    List<Treatment> findByPriceBetween(BigDecimal min , BigDecimal max) ;
+    
+    List<Treatment> findByPriceBetween(BigDecimal min, BigDecimal max);
 
-
+    boolean existsByCode(String code);
 }

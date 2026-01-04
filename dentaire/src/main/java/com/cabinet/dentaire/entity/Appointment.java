@@ -14,7 +14,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -52,7 +51,6 @@ public class Appointment extends BaseEntity {
     @Column(nullable = false, length = 20)
     @Builder.Default
     private AppointmentEnums status = AppointmentEnums.SCHEDULED;
-
     @Size(max = 1000, message = "Notes cannot exceed 1000 characters")
     @Column(length = 1000)
     private String notes;
