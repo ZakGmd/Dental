@@ -15,29 +15,22 @@ import com.cabinet.dentaire.enums.AppointmentEnums;
 @Repository 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    // Find all appointments for a patient
     List<Appointment> findByPatient(Patient patient);
     
-    // Find by patient ID
     List<Appointment> findByPatientId(Long patientId);
     
-    // Find by status
     List<Appointment> findByStatus(AppointmentEnums status);
 
-    // Find appointments between two dates
     List<Appointment> findByDateTimeBetween(LocalDateTime start, LocalDateTime end);
 
-    // Find upcoming appointments for a patient
     List<Appointment> findByPatientIdAndDateTimeAfter(Long patientId, LocalDateTime dateTime);
 
-    // Find by status ordered by date
     List<Appointment> findByStatusOrderByDateTimeAsc(AppointmentEnums status);
 
-    // Custom query for today's appointments
-    @Query("SELECT a FROM Appointment a WHERE DATE(a.dateTime) = CURRENT_DATE ORDER BY a.dateTime")
+    // Fixed: Using native query for PostgreSQL
+    @Query(value = "SELECT * FROM appointments a WHERE DATE(a.date_time) = CURRENT_DATE ORDER BY a.date_time", nativeQuery = true)
     List<Appointment> findTodaysAppointments();
 
-    // Custom query: Find appointments for a patient with specific status
     @Query("SELECT a FROM Appointment a WHERE a.patient.id = :patientId AND a.status = :status")
     List<Appointment> findByPatientAndStatus(
         @Param("patientId") Long patientId, 
